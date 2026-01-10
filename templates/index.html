@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Checker</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        input { padding: 8px; width: 300px; }
+        button { padding: 8px 12px; }
+        .result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Password Strength Checker</h1>
+    <form method="POST">
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if result %}
+        <div class="result">
+            <p><strong>Strength:</strong> {{ result.strength }}</p>
+            <p>
+                {% if result.breach_count > 0 %}
+                    ⚠️ Found in {{ result.breach_count }} known breaches
+                {% else %}
+                    ✅ Not found in breaches
+                {% endif %}
+            </p>
+            {% if suggestion %}
+                <p>💡 Suggested Strong Password: {{ suggestion }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
+

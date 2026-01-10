@@ -1,22 +1,26 @@
+from flask import Flask, render_template, request
 from strength_checker.scorer import score_password, suggest_password
 from breach_check.hash_utils import sha1_hash
 from breach_check.hibp_api import check_breach
 
-password = input("Enter password to check: ")
+app = Flask(__name__)
 
-strength = score_password(password)
-hashed = sha1_hash(password)
-breach_count = check_breach(hashed)
+@app.route("/", methods=["GET", "POST"])
+def home():
+    result = None
+    suggestion = None
+    if request.method == "POST":
+        password = request.form.get("password")
+        strength = score_password(password)
+        breach_count = check_breach(sha1_hash(password))
+        result = {
+            "strength": strength,
+            "breach_count": breach_count
+        }
+        if strength in ["Very Weak", "Weak", "Moderate"]:
+            suggestion = suggest_password()
+    return render_template("index.html", result=result, suggestion=suggestion)
 
-print("\nPassword Strength:", strength)
-
-if breach_count > 0:
-    print(f"⚠️ Found in {breach_count} known data breaches!")
-else:
-    print("✅ No breach found.")
-
-# Suggest a strong password if weak
-if strength in ["Very Weak", "Weak", "Moderate"]:
-    print("💡 Suggested Strong Password:", suggest_password())
-
+if __name__ == "__main__":
+    app.run(debug=True)
 
