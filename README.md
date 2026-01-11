@@ -27,7 +27,7 @@ The application is built using **Python** and **Flask**, with a simple web inter
 
 ## Technology Stack
 - **Backend:** Python, Flask
-- **Frontend:** HTML templates (Jinja2)
+- **Frontend:** HTML templates 
 - **API:** HIBP API for breach detection
 - **Security:** SHA-1 hashing, privacy-preserving checks
 - **Version Control:** Git/GitHub
