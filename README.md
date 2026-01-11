@@ -34,4 +34,3 @@ The application is built using **Python** and **Flask**, with a simple web inter
 
 ---
 
-## Project Structure
